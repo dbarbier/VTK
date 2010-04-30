@@ -452,6 +452,12 @@ public:
   vtkGetMacro(LastRenderingUsedDepthPeeling,int);
 
   // Description:
+  // Turn on/off the selection of translucents actors.
+  vtkSetMacro(PickTranslucent,int);
+  vtkGetMacro(PickTranslucent,int);
+  vtkBooleanMacro(PickTranslucent,int);
+ 
+  // Description:
   // Last render time
   vtkGetMacro(RenderTime,int);
 
@@ -635,6 +641,9 @@ protected:
   // actually used depth peeling.
   // Initial value is false.
   int LastRenderingUsedDepthPeeling;
+
+  // Tells if the translucent actors can be picked.
+  int PickTranslucent;
 
 #if !defined(VTK_LEGACY_REMOVE)
   // VISIBLE CELL SELECTION ----------------------------------------
