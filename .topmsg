@@ -1,3 +1,9 @@
 From: Denis Barbier <bouzim@gmail.com>
-Subject: Work around a bug in object destructor
+Subject: Allow wrapping of vtkRenderWindow::GetColorBufferSizes
 
+See http://www.vtk.org/Bug/view.php?id=7857
+
+When color depth is lower than 24, vtkVisibleCellSelector::Select()
+silently fails.  We want to detect this case to provide
+a software alternative, or at least tell user why picking
+does not work.

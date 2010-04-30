@@ -41,6 +41,7 @@
 #include "vtkWindow.h"
 
 class vtkFloatArray;
+class vtkIntArray;
 class vtkPainterDeviceAdapter;
 class vtkRenderWindowInteractor;
 class vtkRenderer;
@@ -512,6 +513,7 @@ public:
   // Get the size of the color buffer.
   // Returns 0 if not able to determine otherwise sets R G B and A into buffer.
   virtual int GetColorBufferSizes(int *rgba) = 0;
+  virtual int GetColorBufferSizes(vtkIntArray *rgba) = 0;
 
   // Description:
   // Get the vtkPainterDeviceAdapter which can be used to paint on

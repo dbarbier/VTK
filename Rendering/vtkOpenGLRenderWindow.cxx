@@ -17,6 +17,7 @@
 #include "vtkFloatArray.h"
 #include "vtkgl.h"
 #include "vtkIdList.h"
+#include "vtkIntArray.h"
 #include "vtkObjectFactory.h"
 #include "vtkOpenGLActor.h"
 #include "vtkOpenGLCamera.h"
@@ -376,6 +377,22 @@ int vtkOpenGLRenderWindow::GetColorBufferSizes(int *rgba)
     rgba[3] = 8;
     return 32;
     }
+}
+
+int vtkOpenGLRenderWindow::GetColorBufferSizes(vtkIntArray *rgba)
+{
+  if (rgba==NULL)
+    {
+    return 0;
+    }
+
+  if ( rgba->GetMaxId()+1 != 4)
+    {
+    vtkDebugMacro("Resizing array.");
+    rgba->SetNumberOfComponents(1);
+    rgba->SetNumberOfValues(4);
+    }
+  return this->GetColorBufferSizes(rgba->GetPointer(0));
 }
 
 unsigned char* vtkOpenGLRenderWindow::GetPixelData(int x1, int y1, 
