@@ -26,13 +26,6 @@
 // Initialize static member that controls global immediate mode rendering
 static int vtkMapperGlobalImmediateModeRendering = 0;
 
-// Initialize static member that controls global coincidence resolution
-static int vtkMapperGlobalResolveCoincidentTopology = VTK_RESOLVE_OFF;
-static double vtkMapperGlobalResolveCoincidentTopologyZShift = 0.01;
-static double vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFactor = 1.0;
-static double vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetUnits = 1.0;
-static int vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFaces = 1;
-
 // Construct with initial range (0,1).            
 vtkMapper::vtkMapper()
 {
@@ -65,6 +58,12 @@ vtkMapper::vtkMapper()
   this->ColorTextureMap = 0;
 
   this->ForceCompileOnly=0;
+
+  this->ResolveCoincidentTopology = VTK_RESOLVE_OFF;
+  this->ResolveCoincidentTopologyZShift = 0.01;
+  this->ResolveCoincidentTopologyPolygonOffsetFactor = 1.0;
+  this->ResolveCoincidentTopologyPolygonOffsetUnits = 1.0;
+  this->ResolveCoincidentTopologyPolygonOffsetFaces = 1;
 }
 
 vtkMapper::~vtkMapper()
@@ -141,66 +140,28 @@ int vtkMapper::GetGlobalImmediateModeRendering()
   return vtkMapperGlobalImmediateModeRendering;
 }
 
-void vtkMapper::SetResolveCoincidentTopology(int val)
-{
-  if (val == vtkMapperGlobalResolveCoincidentTopology)
-    {
-    return;
-    }
-  vtkMapperGlobalResolveCoincidentTopology = val;
-}
-
-int vtkMapper::GetResolveCoincidentTopology()
-{
-  return vtkMapperGlobalResolveCoincidentTopology;
-}
-
 void vtkMapper::SetResolveCoincidentTopologyToDefault()
 {
-  vtkMapperGlobalResolveCoincidentTopology = VTK_RESOLVE_OFF;
-}
-
-void vtkMapper::SetResolveCoincidentTopologyZShift(double val)
-{
-  if (val == vtkMapperGlobalResolveCoincidentTopologyZShift)
-    {
-    return;
-    }
-  vtkMapperGlobalResolveCoincidentTopologyZShift = val;
-}
-
-double vtkMapper::GetResolveCoincidentTopologyZShift()
-{
-  return vtkMapperGlobalResolveCoincidentTopologyZShift;
+  this->ResolveCoincidentTopology = VTK_RESOLVE_OFF;
 }
 
 void vtkMapper::SetResolveCoincidentTopologyPolygonOffsetParameters(
                                             double factor, double units)
 {
-  if (factor == vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFactor &&
-      units == vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetUnits )
+  if (factor == this->ResolveCoincidentTopologyPolygonOffsetFactor &&
+      units == this->ResolveCoincidentTopologyPolygonOffsetUnits )
     {
     return;
     }
-  vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFactor = factor;
-  vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetUnits = units;
+  this->ResolveCoincidentTopologyPolygonOffsetFactor = factor;
+  this->ResolveCoincidentTopologyPolygonOffsetUnits = units;
 }
 
 void vtkMapper::GetResolveCoincidentTopologyPolygonOffsetParameters(
                            double& factor, double& units)
 {
-  factor = vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFactor;
-  units = vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetUnits;
-}
-
-void vtkMapper::SetResolveCoincidentTopologyPolygonOffsetFaces(int faces)
-{
-  vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFaces = faces;
-}
-
-int vtkMapper::GetResolveCoincidentTopologyPolygonOffsetFaces()
-{
-  return vtkMapperGlobalResolveCoincidentTopologyPolygonOffsetFaces;
+  factor = this->ResolveCoincidentTopologyPolygonOffsetFactor;
+  units = this->ResolveCoincidentTopologyPolygonOffsetUnits;
 }
 
 // Overload standard modified time function. If lookup table is modified,
@@ -718,11 +679,11 @@ void vtkMapper::PrintSelf(ostream& os, vtkIndent indent)
   os << indent << "RenderTime: " << this->RenderTime << endl;
 
   os << indent << "Resolve Coincident Topology: ";
-  if ( vtkMapperGlobalResolveCoincidentTopology == VTK_RESOLVE_OFF )
+  if ( this->ResolveCoincidentTopology == VTK_RESOLVE_OFF )
     {
     os << "Off" << endl;
     }
-  else if ( vtkMapperGlobalResolveCoincidentTopology == VTK_RESOLVE_POLYGON_OFFSET )
+  else if (  this->ResolveCoincidentTopology == VTK_RESOLVE_POLYGON_OFFSET )
     {
     os << "Polygon Offset" << endl;
     }
