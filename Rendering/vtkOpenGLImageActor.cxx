@@ -314,6 +314,11 @@ unsigned char *vtkOpenGLImageActor::MakeDataSuitable(int &xsize, int &ysize,
   return res;
 }
 
+#include <iostream>
+#include <cassert>
+
+using namespace std;
+
 // Implement base class method.
 void vtkOpenGLImageActor::Load(vtkRenderer *ren)
 {
@@ -457,7 +462,9 @@ void vtkOpenGLImageActor::Load(vtkRenderer *ren)
 
   
   // draw the quad
-  if ( vtkMapper::GetResolveCoincidentTopology() )
+  cerr << "You should rewrite the polygon offSet of vtkOpenGLImageActor !" << endl;
+  assert(0);
+  /*if ( vtkMapper::GetResolveCoincidentTopology() )
     {
     if ( vtkMapper::GetResolveCoincidentTopology() == 
          VTK_RESOLVE_SHIFT_ZBUFFER )
@@ -472,7 +479,7 @@ void vtkOpenGLImageActor::Load(vtkRenderer *ren)
       glPolygonOffset(f,u);
 #endif      
       }
-    }
+    }*/
   glDisable(GL_COLOR_MATERIAL);
   glDisable (GL_CULL_FACE);
   glDisable( GL_LIGHTING );

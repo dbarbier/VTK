@@ -276,39 +276,24 @@ public:
   // approach, you may also want to set the ResolveCoincidentTopologyZShift
   // value. (Note: not all mappers/graphics systems implement this 
   // functionality.)
-  static void SetResolveCoincidentTopology(int val);
-  static int  GetResolveCoincidentTopology();
-  static void SetResolveCoincidentTopologyToDefault();
-  static void SetResolveCoincidentTopologyToOff() 
+  /*void SetResolveCoincidentTopology(int val);
+  int  GetResolveCoincidentTopology();*/
+  void SetResolveCoincidentTopologyToDefault();
+  void SetResolveCoincidentTopologyToOff() 
     {SetResolveCoincidentTopology(VTK_RESOLVE_OFF);}
-  static void SetResolveCoincidentTopologyToPolygonOffset() 
+  void SetResolveCoincidentTopologyToPolygonOffset()
     {SetResolveCoincidentTopology(VTK_RESOLVE_POLYGON_OFFSET);}
-  static void SetResolveCoincidentTopologyToShiftZBuffer() 
+  void SetResolveCoincidentTopologyToShiftZBuffer() 
     {SetResolveCoincidentTopology(VTK_RESOLVE_SHIFT_ZBUFFER);}
 
   // Description:
   // Used to set the polygon offset scale factor and units.
   // Used when ResolveCoincidentTopology is set to PolygonOffset. 
   // These are global variables.
-  static void SetResolveCoincidentTopologyPolygonOffsetParameters(
+  void SetResolveCoincidentTopologyPolygonOffsetParameters(
     double factor, double units);
-  static void GetResolveCoincidentTopologyPolygonOffsetParameters(
+  void GetResolveCoincidentTopologyPolygonOffsetParameters(
     double& factor, double& units);
-
-  // Description:
-  // Used when ResolveCoincidentTopology is set to PolygonOffset. The polygon
-  // offset can be applied either to the solid polygonal faces or the
-  // lines/vertices. When set (default), the offset is applied to the faces 
-  // otherwise it is applied to lines and vertices.
-  // This is a global variable.
-  static void SetResolveCoincidentTopologyPolygonOffsetFaces(int faces);
-  static int GetResolveCoincidentTopologyPolygonOffsetFaces();
-
-  // Description:
-  // Used to set the z-shift if ResolveCoincidentTopology is set to
-  // ShiftZBuffer. This is a global variable.
-  static void SetResolveCoincidentTopologyZShift(double val);
-  static double GetResolveCoincidentTopologyZShift();
 
   // Description:
   // Return bounding box (array of six doubles) of data expressed as
@@ -360,6 +345,31 @@ public:
   void SetScalarMaterialModeToAmbientAndDiffuse() 
     {this->SetScalarMaterialMode(VTK_MATERIALMODE_AMBIENT_AND_DIFFUSE);};
 
+  // controls coincidence resolution
+  vtkSetMacro(ResolveCoincidentTopology, int);
+  vtkGetMacro(ResolveCoincidentTopology, int);
+  
+  // Description:
+  // Used to set the z-shift if ResolveCoincidentTopology is set to
+  // ShiftZBuffer. This is a global variable.
+  vtkSetMacro(ResolveCoincidentTopologyZShift, double);
+  vtkGetMacro(ResolveCoincidentTopologyZShift, double);
+  
+  vtkSetMacro(ResolveCoincidentTopologyPolygonOffsetFactor, double);
+  vtkGetMacro(ResolveCoincidentTopologyPolygonOffsetFactor, double);
+  
+  vtkSetMacro(ResolveCoincidentTopologyPolygonOffsetUnits, double);
+  vtkGetMacro(ResolveCoincidentTopologyPolygonOffsetUnits, double);
+  
+  // Description:
+  // Used when ResolveCoincidentTopology is set to PolygonOffset. The polygon
+  // offset can be applied either to the solid polygonal faces or the
+  // lines/vertices. When set (default), the offset is applied to the faces 
+  // otherwise it is applied to lines and vertices.
+  // This is a global variable.
+  vtkSetMacro(ResolveCoincidentTopologyPolygonOffsetFaces, int);
+  vtkGetMacro(ResolveCoincidentTopologyPolygonOffsetFaces, int);
+
   // Description:
   // Return the light-model color mode.
   const char *GetScalarMaterialModeAsString();
@@ -394,6 +404,13 @@ protected:
   int ColorMode;
   int ScalarMode;
   int ScalarMaterialMode;
+
+  // Controls coincidence resolution
+  int ResolveCoincidentTopology;
+  double ResolveCoincidentTopologyZShift;
+  double ResolveCoincidentTopologyPolygonOffsetFactor;
+  double ResolveCoincidentTopologyPolygonOffsetUnits;
+  int ResolveCoincidentTopologyPolygonOffsetFaces;
 
   double RenderTime;
 

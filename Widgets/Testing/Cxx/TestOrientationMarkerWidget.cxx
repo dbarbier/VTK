@@ -478,7 +478,7 @@ int TestOrientationMarkerWidget( int, char *[] )
   // this static function improves the appearance of the text edges
   // since they are overlaid on a surface rendering of the cube's faces
   //
-  vtkMapper::SetResolveCoincidentTopologyToPolygonOffset();
+  //vtkMapper::SetResolveCoincidentTopologyToPolygonOffset();
 
   // anatomic labelling
   //
