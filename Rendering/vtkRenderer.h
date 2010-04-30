@@ -452,6 +452,10 @@ public:
   vtkGetMacro(LastRenderingUsedDepthPeeling,int);
 
   // Description:
+  // Last render time
+  vtkGetMacro(RenderTime,int);
+
+  // Description:
   // Set/Get a custom Render call. Allows to hook a Render call from an
   // external project.It will be used in place of vtkRenderer::Render() if it
   // is not NULL and its Used ivar is set to true.

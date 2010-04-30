@@ -2016,6 +2016,8 @@ void vtkRenderer::SwapOutSelectablePainter(
       {
       orig_mapper->SetPainter(orig_painter);
       orig_painter->UnRegister(this);
+      // Inform the painters that this rendering is a selection rendering
+      orig_painter->SetPreviousRenderingForSelection(orig_mapper->GetMTime());
       }
     }
   if (!orig_painter)
