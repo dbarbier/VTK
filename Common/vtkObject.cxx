@@ -157,7 +157,7 @@ vtkObject::~vtkObject()
   // by another object
   if ( this->ReferenceCount > 0)
     {
-    vtkErrorMacro(<< "Trying to delete object with non-zero reference count.");
+    vtkWarningMacro(<< "Trying to delete object with non-zero reference count.");
     }
   delete this->SubjectHelper;
   this->SubjectHelper = NULL;

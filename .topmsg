@@ -1,4 +1,3 @@
 From: Denis Barbier <bouzim@gmail.com>
-Subject: Allow picking translucent objects
+Subject: Work around a bug in object destructor
 
-See http://www.vtk.org/Bug/view.php?id=7295
