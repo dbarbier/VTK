@@ -149,6 +149,21 @@ public:
   virtual vtkDataObject* GetOutput()
     { return this->Input; }
 
+  // Description:
+  // If you're making a selection rendering please add the TimeStamp time of the
+  // selection rendering.
+  // If the value is equal to zero then the previous rendering is not a selection rendering.
+  // If the value is different of zero then the previous rendering was a selection rendering.
+  void SetPreviousRenderingForSelection(int value)
+  {
+    this->PreviousRenderingForSelection = value;
+  }
+
+  int GetPreviousRenderingForSelection()
+  {
+    return this->PreviousRenderingForSelection;
+  }
+
 //BTX
 protected:
   vtkPainter();
@@ -236,6 +251,8 @@ protected:
 
   double TimeToDraw;
   vtkTimerLog* Timer;
+
+  int PreviousRenderingForSelection;
   
   vtkWeakPointer<vtkWindow> LastWindow; // Window used for previous render.
                          // This is not reference counted.

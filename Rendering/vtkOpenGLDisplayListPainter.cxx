@@ -114,7 +114,13 @@ void vtkOpenGLDisplayListPainter::RenderInternal(vtkRenderer *renderer,
                                                  unsigned long typeflags,
                                                  bool forceCompileOnly)
 {
-  if (this->GetMTime() > this->Internals->BuildTime ||
+  long time = this->GetPreviousRenderingForSelection();
+  if(time == 0)
+      time = this->Internals->BuildTime;
+  else
+    time = renderer->GetRenderTime();
+
+  if ((this->GetMTime() > time && time == this->Internals->BuildTime) ||
     (this->LastWindow && (renderer->GetRenderWindow() != this->LastWindow.GetPointer())))
     {
     // MTime changes when input changes or someother iVar changes, so display
@@ -143,11 +149,12 @@ void vtkOpenGLDisplayListPainter::RenderInternal(vtkRenderer *renderer,
   // typeflags are obsolete.
   if (
     // Since input changed
-    input->GetMTime() > this->Internals->BuildTime  ||
+    input->GetMTime() > time ||
     // actor's properties were modified
-    actor->GetProperty()->GetMTime() > this->Internals->BuildTime ||
+    actor->GetProperty()->GetMTime() > time ||
     // mapper information was modified
-    this->Information->GetMTime() > this->Internals->BuildTime)
+    //this->Information->GetMTime() > this->Internals->BuildTime
+    false)
     {
     this->Internals->ReleaseAllLists(this->LastWindow);
     this->LastWindow = 0;

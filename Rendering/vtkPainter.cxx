@@ -85,6 +85,8 @@ vtkPainter::vtkPainter()
   this->SetInformation(temp);
   temp->Delete();
 
+  this->PreviousRenderingForSelection = 0;
+
   vtkPainter::STATIC_DATA()->Set(this->Information, 0);
   vtkPainter::CONSERVE_MEMORY()->Set(this->Information, 0);
   vtkPainter::HIGH_QUALITY()->Set(this->Information, 1);
@@ -211,6 +213,9 @@ void vtkPainter::Render(vtkRenderer* renderer, vtkActor* actor,
 
   this->PrepareForRendering(renderer, actor);
   this->RenderInternal(renderer, actor, typeflags,forceCompileOnly);
+
+  // If the previous rendering selection information exist remove it
+  SetPreviousRenderingForSelection(0);
 }
 
 //-----------------------------------------------------------------------------
