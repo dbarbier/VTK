@@ -1,5 +1,4 @@
 From: Denis Barbier <bouzim@gmail.com>
-Subject: Make different polygon offset for each mappers.
+Subject: Allow picking translucent objects
 
-By default VTK use statics members so the offset parameters are shared by all the mappers.
-See http://www.vtk.org/Bug/view.php?id=7294
+See http://www.vtk.org/Bug/view.php?id=7295

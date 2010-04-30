@@ -131,6 +131,8 @@ vtkRenderer::vtkRenderer()
   this->MaximumNumberOfPeels=4;
   this->LastRenderingUsedDepthPeeling=0;
 
+  this->PickTranslucent=0;
+
   this->Selector = 0;
   this->Delegate=0;
   this->Pass=0;
@@ -1913,6 +1915,25 @@ int vtkRenderer::UpdateGeometryForSelection()
       return 0;
     }
 
+  // Check if there is translucent geometry
+  // do the render library specific stuff about translucent polygonal geometry.
+  // As it can be expensive, do a quick check if we can skip this step
+  int hasTranslucentPolygonalGeometry=0;
+  if(PickTranslucent)
+  {
+    for ( i = 0; !hasTranslucentPolygonalGeometry && i < this->PropArrayCount;
+          i++ )
+      { 
+      hasTranslucentPolygonalGeometry=
+        this->PropArray[i]->HasTranslucentPolygonalGeometry();
+      }
+    // Have to be set before a call to UpdateTranslucentPolygonalGeometry()
+    // because UpdateTranslucentPolygonalGeometry() will eventually call
+    // vtkOpenGLActor::Render() that uses this flag.
+    if(hasTranslucentPolygonalGeometry)
+      this->LastRenderingUsedDepthPeeling=0;
+  }
+
   // loop through props and give them a chance to
   // render themselves as opaque geometry
   for ( i = 0; i < this->PropArrayCount; i++ )
@@ -1940,6 +1961,8 @@ int vtkRenderer::UpdateGeometryForSelection()
       {
       this->NumberOfPropsRendered +=
         this->PropArray[i]->RenderOpaqueGeometry(this);
+      if(hasTranslucentPolygonalGeometry != 0 && this->PropArray[i]->HasTranslucentPolygonalGeometry())
+        this->PropArray[i]->RenderTranslucentPolygonalGeometry(this);
       }
 
     //restore the prop's original settings
